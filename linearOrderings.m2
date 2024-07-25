@@ -1,29 +1,15 @@
--*
-linearOrderings - a program to find linear orderings of a set of generators of an ideal in Macaulay2
-Usage:
-    findLinearOrderings(genList, n)
-    isLinear(genList, n))
-    Note that the user should define Q to be the polynomial ring QQ[x_1..x_n] before calling
-Params:
-    genList: a list of generators of an ideal in Q = QQ[x_1..x_n]
-    n: the number of variables in Q
-Returns:
-    findLinearOrderings(genList, n):
-        a list with two elements:
-            1. a list of generators of an ideal in Q that is "the most" linear ordering of genList
-            2. a list of the linear quotients of list 1, taken in order
-    isLinear(genList, n)::
-        true if genList is a linear ordering of the given ideal, false otherwise
-
-Mario Stinson-Maas, Spring 2024
-*-
 findLinearOrderings = (genList, n) -> (
     use Q;
+    genList = genList;
     m = ideal(x_1..x_n) * ideal(x_1..x_n);
     opts := {};
     for gen from 0 to #genList-1 do (
         newTail := drop(genList, {gen,gen});
         opts = opts | {linearRecursion({genList#gen}, newTail)};
+        lastOpt = opts_{#opts-1};
+        if (#lastOpt == #genList) then (
+            break 2;
+        );
     );
     lengths := apply(opts, p -> #p);
     spot := maxPosition lengths;
@@ -44,9 +30,14 @@ linearRecursion = (inp, tail) -> (
         for i in quotGens do (
             if i % m != 0 then (
                 count = count + 1;
+            ) else (
+                break 1;
             );
         );
         if count == #quotGens then (
+            if (#tail == 1) then (
+                return {inp | {tail}};
+            );
             newTail := drop(tail, {gen,gen});
             opts = opts | {linearRecursion(inp | {tail#gen}, newTail)};
         );
@@ -86,3 +77,5 @@ isLinear = (genList, n) -> (
     );
     return true;
 );
+
+findLinearOrderings (antiPathSix, 6);
