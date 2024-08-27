@@ -1,7 +1,7 @@
-n = 6
+n = 5
 Q = QQ[x_1..x_n]
 
--- antiCycleFive = ideal (x_1*x_3, x_1*x_4, x_1)
+antiCycleFive = {x_1*x_3, x_1*x_4, x_2*x_4, x_2*x_5, x_3*x_5}
 antiPathSix = {x_1*x_3, x_1*x_4, x_1*x_5, x_1*x_6, x_2*x_4, x_2*x_5, x_2*x_6, x_3*x_5, x_3*x_6, x_4*x_6}
 
 -*

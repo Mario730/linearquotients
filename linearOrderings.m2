@@ -13,7 +13,14 @@ findLinearOrderings = (genList, n) -> (
     );
     lengths := apply(opts, p -> #p);
     spot := maxPosition lengths;
-    return {opts#spot, getQuotients(opts#spot)};
+    if (#(opts#spot) == #genList) then (
+        << "Linear ordering found: " << opts#spot < "  ...  ";
+        << "Quotients: " << getQuotients(opts#spot);
+        return;
+    );
+    << "No linear ordering found; most linear: " << opts#spot << "  ...  ";
+    << "Quotients: " << getQuotients(opts#spot);
+    return;
 )
 linearRecursion = (inp, tail) -> (
     if #tail == 0 then (
@@ -78,4 +85,4 @@ isLinear = (genList, n) -> (
     return true;
 );
 
-findLinearOrderings (antiPathSix, 6);
+findLinearOrderings (antiCycleFive, 5);
