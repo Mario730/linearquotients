@@ -84,5 +84,3 @@ isLinear = (genList, n) -> (
     );
     return true;
 );
-
-findLinearOrderings (antiCycleFive, 5);
