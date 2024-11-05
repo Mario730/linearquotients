@@ -1,8 +1,8 @@
-findLinearOrderings = (genList, n) -> (
-    beginRecursion = (genList, n) -> (
+findLinearOrderings = (edgeIdeal, n) -> (
+    beginRecursion = (edgeIdeal, n) -> (
         use Q;
-        genList = genList;
-        m = ideal(x_1..x_n) * ideal(x_1..x_n);
+        genList = first entries gens trim edgeIdeal;
+        m = trim (ideal(x_1..x_n))^2;
         bestOrders = {};
         linear = set{};
         nonlinear = set{};
@@ -66,7 +66,7 @@ findLinearOrderings = (genList, n) -> (
             return bestOrders;
         );
     );
-    val := elapsedTiming beginRecursion(genList, n);
+    val := elapsedTiming beginRecursion(edgeIdeal, n);
     << "    -- Elapsed time: " << val#0 << " seconds." << endl;
     return val#1;
 );
@@ -74,6 +74,6 @@ n = 6;
 Q = QQ[x_1..x_n];
 
 
-antiCycleSix = {x_1*x_3, x_1*x_4, x_1*x_5, x_2*x_4, x_2*x_5, x_2*x_6, x_3*x_5, x_3*x_6, x_4*x_6};
+antiCycleSix = ideal (x_1*x_3, x_1*x_4, x_1*x_5, x_2*x_4, x_2*x_5, x_2*x_6, x_3*x_5, x_3*x_6, x_4*x_6);
 
-findLinearOrderings( first entries gens trim (ideal antiCycleSix), 6)
+findLinearOrderings( antiCycleSix, 6)
